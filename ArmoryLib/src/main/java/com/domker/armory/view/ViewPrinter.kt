@@ -20,20 +20,16 @@ object ViewPrinter {
      * @param view
      */
     fun printViewPath(view: View) {
-        var parent: View? = view
+        var current: View? = view
         var i = 1
         log("Print view tree from " + view)
         do {
-            val drawable = parent!!.background
-            val msg = "[$i] $parent"
+            val drawable = current!!.background
+            val msg = "[${i++}] $current"
             log(msg + " " + getDrawableInfo(drawable))
             // 上一层
-            parent = if (parent.parent != null && parent.parent is View) {
-                parent.parent as View
-            } else {
-                null
-            }
-        } while (parent != null)
+            current = if (current.parent is View) current.parent as View else null
+        } while (current != null)
     }
 
     /**
@@ -60,15 +56,13 @@ object ViewPrinter {
     }
 
     private fun printViewTreeItem(view: View?, prefixIndent: String) {
-        if (view != null) {
+        view?.let {
             val clazz = view.javaClass.name
             log("$prefixIndent<$clazz> $view $view.background")
-            if (view is ViewGroup) {
-                val viewGroup = view as ViewGroup?
-                val count = viewGroup!!.childCount
-                (0 until count)
-                        .map { viewGroup.getChildAt(it) }
-                        .forEach { printViewTreeItem(it, prefixIndent + " ") }
+            if (view is ViewGroup && view.childCount > 0) {
+                (0 until view.childCount)
+                        .map { view.getChildAt(it) }
+                        .forEach { printViewTreeItem(it, prefixIndent + "  ") }
             }
             log("$prefixIndent</$clazz>")
         }

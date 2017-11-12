@@ -105,8 +105,8 @@ object Reflect {
 
     fun invokeMethod(class_name: String, method_name: String, obj: Any, pareTyple: Array<Class<*>>, pareVaules: Array<Any>): Any? {
         try {
-            val obj_class = Class.forName(class_name)
-            val method = obj_class.getMethod(method_name, *pareTyple)
+            val clazz = Class.forName(class_name)
+            val method = clazz.getMethod(method_name, *pareTyple)
             return method.invoke(obj, *pareVaules)
         } catch (e: SecurityException) {
             e.printStackTrace()
