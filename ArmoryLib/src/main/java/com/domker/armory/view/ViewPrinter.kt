@@ -19,17 +19,17 @@ object ViewPrinter {
      * 打印从给定View到根view的信息
      * @param view
      */
-    fun printViewPath(view: View) {
+    fun printViewPath(view: View?) {
         var current: View? = view
         var i = 1
         log("Print view tree from " + view)
-        do {
-            val drawable = current!!.background
+        while (current != null) {
+            val drawable = current.background
             val msg = "[${i++}] $current"
             log(msg + " " + getDrawableInfo(drawable))
             // 上一层
             current = if (current.parent is View) current.parent as View else null
-        } while (current != null)
+        }
     }
 
     /**
