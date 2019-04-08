@@ -1,1 +1,2 @@
-include ':app', ':ArmoryLib'
+include ':app'
+include ':ArmoryLib'
